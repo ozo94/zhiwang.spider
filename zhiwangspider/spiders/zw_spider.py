@@ -62,6 +62,7 @@ class zwspider(Spider):
         'Upgrade-Insecure-Requests':'1',
     }
 
+    # cookies是存在时间限制的，可以尝试使用动态获取cookie的方式
     cookies = {
         'Ecp_ClientId': '1170508144702006262',
         'cnkiUserKey': '35b8f401-5acc-d2ad-1b1a-bc71854695ba',
@@ -79,7 +80,7 @@ class zwspider(Spider):
         # 第一次链接
         # http://kns.cnki.net/kns/request/SearchHandler.ashx?
 
-        # magazine_special1, '=' 精确搜索, '%' 模糊搜索
+        # magazine_special1, '=' -> 精确搜索, '%' -> 模糊搜索
         self.formdata = urllib.urlencode(
             {'magazine_value1': '计算机学报',
              'year_from': '2010',
@@ -133,6 +134,7 @@ class zwspider(Spider):
         if 'CheckCodeImg' in response.body:
             print 'need check code!'
 
+            # 带cookie获取验证码图片，防止下载时图片的刷新，影响识别
             img = requests.get('http://kns.cnki.net/kns/checkcode.aspx?t=%27+Math.random()',
                                stream=True,
                                headers=self.headers ,
@@ -151,6 +153,7 @@ class zwspider(Spider):
             print 'rurl', rurl
             print 'veriform',veriform
 
+            # 返回验证码后的跳转地址，dont_filter参数，防止用户被服务器踢出去
             yield Request(
                 "http://kns.cnki.net/kns/brief/vericode.aspx?" + veriform,
                 headers=self.headers,
