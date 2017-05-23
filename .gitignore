@@ -1,0 +1,13 @@
+# .pyc文件
+*.pyc
+
+# .idea文件夹
+*.idea
+# .csv文件
+*.csv
+# .html文件
+*.html
+# .log
+*.log
+# .cfg文件
+*.cfg
