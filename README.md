@@ -16,7 +16,7 @@
 - 框架:Scrapy
 ##### 模块（文件）
 - captcha_recognition
-    知网验证码的验证模块（知网的验证码还是比较简单的）
+    知网验证码的验证模块（知网的验证码还是比较简单）
     识别效率在70%左右，基本达到标准
     技术实现参考地址：https://www.zhihu.com/question/33321954?sort=created
 - img
