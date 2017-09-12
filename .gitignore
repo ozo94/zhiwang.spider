@@ -2,11 +2,10 @@
 *.pyc
 
 # .idea文件夹
-*.idea
+/.idea
 # .csv文件
 *.csv
-# .html文件
-*.html
+
 # .log
 *.log
 
