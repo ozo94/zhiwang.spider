@@ -5,12 +5,10 @@ from urlparse import urljoin
 import requests
 from PIL import Image
 from scrapy import Spider
-from scrapy.http import Request, FormRequest, request
+from scrapy.http import Request
 
-from zhiwangspider.captcha_recognition.recognition_img import distinguish_captcha
+from captcha_recognition.recognition_img import distinguish_captcha
 from zhiwangspider.items import ZhiwangspiderItem
-
-
 
 # 第二次跳转
 # http://kns.cnki.net/kns/brief/brief.aspx?
@@ -108,7 +106,7 @@ class zwspider(Spider):
                        )
 
     def Search1(self,response):
-        filename = 'search1.html'
+        filename = 'tmp_htmls/search1.html'
         with open(filename, 'wb') as f:
             f.write(response.body)
         return Request("http://kns.cnki.net/kns/brief/brief.aspx?"+formdata1,
@@ -118,7 +116,7 @@ class zwspider(Spider):
                        )
 
     def Search2(self,response):
-        filename = 'search2.html'
+        filename = 'tmp_htmls/search2.html'
         with open(filename, 'wb') as f:
             f.write(response.body)
         return Request("http://kns.cnki.net/kns/brief/brief.aspx?"+formdata2,
@@ -128,7 +126,7 @@ class zwspider(Spider):
 
 
     def Search3(self,response):
-        filename = 'result.html'
+        filename = 'tmp_htmls/result.html'
         with open(filename, 'wb') as f:
             f.write(response.body)
         if 'CheckCodeImg' in response.body:
@@ -139,9 +137,10 @@ class zwspider(Spider):
                                stream=True,
                                headers=self.headers ,
                                cookies = self.cookies)
-            with open('1.gif', 'wb') as f:
+            code_path = 'tmp_code_img/code.gif'
+            with open(code_path, 'wb') as f:
                 f.write(img.content)
-            img = Image.open('1.gif')
+            img = Image.open(code_path)
             img.show()
             checkcode = distinguish_captcha(img)
             print 'checkcode',checkcode
